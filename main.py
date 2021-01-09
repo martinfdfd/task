@@ -24,15 +24,17 @@ kraken = Kraken()
 kraken_geo = Kraken_GEO()
 
 
-geoconfig = {"provider": "gbdx",
+geoconfig = {
+    "provider": "gbdx",
     "dataset": "idaho-pansharpened",
     "startDatetime": "2018-01-01 00:00:00",
     "endDatetime": "2018-01-31 00:00:00",
     "minIntersection": 0.4,
-    "onlyIngested": False,}
+    "onlyIngested": False,
+}
 
 
-payload = open_geojson('geotest.geojson',geoconfig)
+payload = open_geojson("geotest.geojson", geoconfig)
 
 
 resp_scenery, _ = scenery.initiate(payload)
