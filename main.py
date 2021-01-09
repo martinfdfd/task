@@ -52,7 +52,7 @@ while status != 200:
 alloc_req = kraken.kraken_formatter(retrieved_scenery["results"])
 scenealloc = SceneryAllocation()
 allocate, status = scenealloc.initiate(alloc_req)
-print("Analysis will cost", allocate["cost"])
+print("Analysis will cost", allocate)
 
 
 handler = []
