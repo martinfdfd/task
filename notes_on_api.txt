@@ -1,0 +1,6 @@
+1) API/Backend/Frontend takes credit even if fails to start analysis (monetization of api with backwards causality)
+2) Task is wrong in claiming that brisbane area is free. Some parts are, but mostly it is not. Getting quite often errors with "Not enough credit"
+3) API returns 424 quite often
+4) impossible to understand spaceknow api without reverse-engineering frontend. Initiation is required
+5) No documentated steps in documentation, lack of examples
+6) strange way how to reconstruct images from tiles - not even documented in documentation. Frontend during reconstruction sends hundreds of requests for different tiles of different zoom and around 95% fails with permission denied. Seems like there is no way how to guess correct tiles
