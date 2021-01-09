@@ -9,9 +9,10 @@ from api import (
     Scenery,
     Tiles,
 )
+import json
 from handlers import SimpleAsyncHandler
 from settings import Credentials
-from utils import count_cars
+from utils import count_cars, open_geojson
 
 Api.CLIENT = Authentication(
     Credentials.USERNAME, Credentials.PASSWORD, Credentials.PUBLIC_CLIENT
@@ -23,34 +24,15 @@ kraken = Kraken()
 kraken_geo = Kraken_GEO()
 
 
-payload = {
-    "extent": {
-        "type": "Feature",
-        "properties": {"name": "over Brisbane Airport"},
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-                [
-                    [153.1140525504701, -27.384232208334343],
-                    [153.11560217582382, -27.384232208334343],
-                    [153.11715180117756, -27.384232208334343],
-                    [153.1171518041458, -27.385608168490847],
-                    [153.11715180711485, -27.38698412864734],
-                    [153.11560218176123, -27.38698412864734],
-                    [153.11405255640761, -27.38698412864734],
-                    [153.11405255343834, -27.385608168490847],
-                    [153.1140525504701, -27.384232208334343],
-                ]
-            ],
-        },
-    },
-    "provider": "gbdx",
+geoconfig = {"provider": "gbdx",
     "dataset": "idaho-pansharpened",
     "startDatetime": "2018-01-01 00:00:00",
     "endDatetime": "2018-01-31 00:00:00",
     "minIntersection": 0.4,
-    "onlyIngested": False,
-}
+    "onlyIngested": False,}
+
+
+payload = open_geojson('geotest.geojson',geoconfig)
 
 
 resp_scenery, _ = scenery.initiate(payload)
@@ -106,11 +88,12 @@ for scene in retrieved_scenery["results"]:
     handler.append(SimpleAsyncHandler(task))
 
 print("Retrieving detections and images from tiles")
-[i.eval() for i in handler]
 
-while all([i.tasks["kraken"]["finish"] for i in handler]) and all(
+while not all([i.tasks["kraken"]["finish"] for i in handler]) and not all(
     [i.tasks["kraken_geo"]["finish"] for i in handler]
 ):
+    [i.eval() for i in handler]
+
     time.sleep(3)
     print("Waiting for retrieval...")
 
