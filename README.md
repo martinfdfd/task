@@ -7,6 +7,11 @@ pip install -r requirements
 .env.example shows what to fill in order to use spaceknow api
 create .env and fill it correctly
 ### Run
+
+create folder images
+
+run
+
 ```bash
 python main.py
 ```
